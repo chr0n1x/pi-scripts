@@ -1,0 +1,9 @@
+#!/bin/bash
+
+bluetoothctl power on
+bluetoothctl agent on
+bluetoothctl default-agent
+
+for deviceMAC in $(bluetoothctl paired-devices | awk '{print $2}'); do
+    bluetoothctl connect $deviceMAC
+done

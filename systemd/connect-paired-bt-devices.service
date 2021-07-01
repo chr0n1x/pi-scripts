@@ -1,0 +1,20 @@
+[Unit]
+Description=Paired Bluetooth Auto-Connect Service
+Requires=bluetooth.service
+BindsTo=bluetooth.service
+After=keyboard-setup.service
+Wants=keyboard-setup.service
+StartLimitIntervalSec=1
+
+[Service]
+Type=simple
+User=root
+
+Restart=on-failure
+RestartSec=8
+
+ExecStart=/bin/bash /usr/local/bin/pair-all-bt
+SuccessExitStatus=0
+
+[Install]
+WantedBy=multi-user.target
