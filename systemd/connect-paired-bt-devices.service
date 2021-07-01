@@ -2,17 +2,21 @@
 Description=Paired Bluetooth Auto-Connect Service
 Requires=bluetooth.service
 BindsTo=bluetooth.service
+
+Before=getty.target
 After=keyboard-setup.service
-Wants=keyboard-setup.service
+After=systemd-user-sessions.service plymouth-quit-wait.service
+After=rc-local.service
+
 StartLimitIntervalSec=1
 
 [Service]
 Type=simple
 User=root
 
+RemainAfterExit=True
 Restart=on-failure
 RestartSec=8
-
 ExecStart=/bin/bash /usr/local/bin/pair-all-bt
 SuccessExitStatus=0
 

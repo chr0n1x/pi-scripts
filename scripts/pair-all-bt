@@ -1,9 +1,12 @@
 #!/bin/bash
 
+echo "Powering up Bluetooth..."
 bluetoothctl power on
 bluetoothctl agent on
 bluetoothctl default-agent
+bluetoothctl discoverable off
 
+echo "Connecting to trusted devices..."
 for deviceMAC in $(bluetoothctl paired-devices | awk '{print $2}'); do
     bluetoothctl connect $deviceMAC
 done
