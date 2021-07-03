@@ -1,21 +1,14 @@
 [Unit]
 Description=Auto-Connect to %i
-Requires=wpa_supplicant.service
-BindsTo=wpa_supplicant.service
-
-After=systemd-user-sessions.service
-After=rc-local.service
-After=cloud-final.service
-
+# this unit is just so that I can SSH into the rpi bc...lazy
+Requires=ssh.service
+BindsTo=ssh.service
 StartLimitIntervalSec=1
 
 [Service]
-Type=simple
+Type=oneshot
 User=root
-
 RemainAfterExit=True
-Restart=on-failure
-RestartSec=8
 ExecStart=/bin/bash /usr/local/bin/wifi %i
 SuccessExitStatus=0
 
