@@ -13,8 +13,5 @@ if [ -z "$interface" ]; then
   echo "No network device provided, defaulting to $interface"
 fi
 
-# this may not be needed?
-# the line after seemed to do it automatically when I did this manually
-ip link set "$interface" up
 wpa_supplicant -Bc "$wpa_conf" -i "$interface"
 dhclient "$interface"
