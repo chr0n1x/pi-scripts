@@ -1,0 +1,23 @@
+[Unit]
+Description=Auto-Connect to %i
+Requires=wpa_supplicant.service
+BindsTo=wpa_supplicant.service
+
+After=systemd-user-sessions.service
+After=rc-local.service
+After=cloud-final.service
+
+StartLimitIntervalSec=1
+
+[Service]
+Type=simple
+User=root
+
+RemainAfterExit=True
+Restart=on-failure
+RestartSec=8
+ExecStart=/bin/bash /usr/local/bin/wifi %i
+SuccessExitStatus=0
+
+[Install]
+WantedBy=multi-user.target
