@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# this is more for documentation purposes, I typically do this manually on initial setup
+
+ssid=$1
+ssidpw_file=$2
+interface=$3
+
+help="Usage: wifi <SSID> <SSID Password File (plaintext, full path)> <interface default=wlan0>"
+
+if [ -z "$ssid" ] || [ -z "$ssidpw_file" ]; then
+  echo "$help"
+  exit 1
+fi
+
+if [ -z "$interface" ]; then
+  echo "No <interface> given, defaulting to wlan0"
+  interface="wlan0"
+fi
+
+echo "Configuring WPA supplicant for interface $interface, $ssid with password in $ssidpw_file"
+
+conf_file=/etc/wpa_supplicant/wpa_supplicant.conf
+wpa_passphrase "$ssid" "$(cat $ssidpw_file)" > "$conf_file"
+
+# in ./scripts/wifi
+wifi "$conf_file" "$interface"

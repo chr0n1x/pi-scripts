@@ -1,0 +1,20 @@
+#!/bin/sh
+
+wpa_conf=$1
+interface=$2
+
+if [ -z "$wpa_conf" ]; then
+  wpa_conf=/etc/wpa_supplicant/wpa_supplicant.conf
+  echo "No WPA Conf path provided, defaulting to $wpa_conf"
+fi
+
+if [ -z "$interface" ]; then
+  interface="wlan0"
+  echo "No network device provided, defaulting to $interface"
+fi
+
+# this may not be needed?
+# the line after seemed to do it automatically when I did this manually
+ip link set "$interface" up
+wpa_supplicant -Bc "$wpa_conf" -i "$interface"
+dhclient "$interface"
