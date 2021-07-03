@@ -2,8 +2,8 @@ default: install
 
 install-scripts:
 	@for script in $(shell ls scripts); do   \
-      scriptFile="$(shell pwd)/systemd/$$script"; \
-      scriptPath="/lib/systemd/system/$$script"; \
+      scriptFile="$(shell pwd)/scripts/$$script"; \
+      scriptPath="/usr/local/bin/$$script"; \
       ln -vs $$scriptFile $$scriptPath || \
       echo "Failed to link $$scriptPath"; \
     done
