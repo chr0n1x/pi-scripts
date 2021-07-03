@@ -1,7 +1,7 @@
 #!/bin/sh
 
-wpa_conf=$1
-interface=$2
+interface=$1
+wpa_conf=$2
 
 if [ -z "$wpa_conf" ]; then
   wpa_conf=/etc/wpa_supplicant/wpa_supplicant.conf

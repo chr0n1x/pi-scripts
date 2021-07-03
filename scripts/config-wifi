@@ -24,4 +24,4 @@ conf_file=/etc/wpa_supplicant/wpa_supplicant.conf
 wpa_passphrase "$ssid" "$(cat $ssidpw_file)" > "$conf_file"
 
 # in ./scripts/wifi
-wifi "$conf_file" "$interface"
+wifi "$interface" "$conf_file"
