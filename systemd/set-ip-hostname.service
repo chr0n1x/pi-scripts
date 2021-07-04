@@ -1,0 +1,16 @@
+[Unit]
+Description=Set Hostname based on 'hostname -i' IP
+Before=systemd-hostname.service
+Requires=networkd-dispatcher.service
+BindsTo=networkd-dispatcher.service
+StartLimitIntervalSec=1
+
+[Service]
+Type=oneshot
+User=root
+RemainAfterExit=True
+ExecStart=/bin/bash /usr/local/bin/set-hostname
+SuccessExitStatus=0
+
+[Install]
+WantedBy=multi-user.target
