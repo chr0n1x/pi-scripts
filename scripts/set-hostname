@@ -1,7 +1,7 @@
 #!/bin/sh
 
-hostname="rpi-$(hostname -i)"
+hostname="rpi-$(hostname -I)"
 echo "Setting hostname to '$hostname'"
 
 hostnamectl set-hostname "$hostname"
-echo "rpi4-$(hostname -i)" > /etc/hostname
+echo "$hostname" > /etc/hostname
