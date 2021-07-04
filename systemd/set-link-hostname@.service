@@ -1,6 +1,7 @@
 [Unit]
-Description=Set Hostname based on 'hostname -i' IP
+Description=Set Hostname based on %i ip
 Before=systemd-hostname.service
+After=auto-wpa@%i.service
 Requires=networkd-dispatcher.service
 BindsTo=networkd-dispatcher.service
 StartLimitIntervalSec=1
@@ -9,7 +10,7 @@ StartLimitIntervalSec=1
 Type=oneshot
 User=root
 RemainAfterExit=True
-ExecStart=/bin/bash /usr/local/bin/set-hostname
+ExecStart=/bin/bash /usr/local/bin/set-hostname %i
 SuccessExitStatus=0
 
 [Install]
