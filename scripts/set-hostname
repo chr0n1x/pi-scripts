@@ -13,4 +13,3 @@ hostname="rpi-$ip"
 echo "Setting hostname to '$hostname'"
 
 hostnamectl set-hostname "$hostname"
-echo "$hostname" > /etc/hostname
