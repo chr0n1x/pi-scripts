@@ -1,0 +1,16 @@
+[Unit]
+Description=Auto-Start Nginx and route traffic to LAN on %i
+Requires=docker.service
+BindsTo=docker.service
+StartLimitIntervalSec=1
+
+[Service]
+Type=simple
+User=root
+ExecStart=/bin/bash /usr/local/bin/reverse-proxy-lan %i
+Restart=always
+KillMode=process
+TimeoutSec=8s
+
+[Install]
+WantedBy=multi-user.target
