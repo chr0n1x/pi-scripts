@@ -7,7 +7,7 @@ if [ -z "$hostnames" ]; then
 fi
 
 ips=()
-for hostname in $(echo ${hostnames//,/ }); do
+for hostname in $(echo ${hostnames//:/ }); do
   # can't memo-ize arp output, entire string turns into a single line
   ip="$(arp -a | grep "$hostname" | awk '{print $2}' | sed 's/^(\(.*\))$/\1/')"
   
