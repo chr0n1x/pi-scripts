@@ -5,6 +5,9 @@ link-files:
       ln -vs $$(pwd)/$${path#*./} $${path#*/pi}; \
     done
 
+clean-links:
+	for path in $(shell find ./pi -type f); do rm $${path#*/pi}; done
+
 install-prereqs:
 	@apt update && apt install -y net-tools python3 python3-pip
 	@pip3 install ansible
