@@ -26,4 +26,5 @@ Various K8s resources coming later.
 
 ## Misc Notes
 
-- Using [this calico configuration on my cluster](https://gist.github.com/joshrosso/7eda940337a89c97b690bc855139ca61)
+- Tried [this calico configuration on my cluster](https://gist.github.com/joshrosso/7eda940337a89c97b690bc855139ca61)
+- Using [this Traefik config](https://raw.githubusercontent.com/traefik/traefik/v1.7/examples/k8s/traefik-ds.yaml)
