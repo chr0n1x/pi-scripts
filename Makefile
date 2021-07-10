@@ -1,20 +1,15 @@
 default: install
 
-install-scripts:
-	@for script in $(shell ls scripts); do   \
-      scriptFile="$(shell pwd)/scripts/$$script"; \
-      scriptPath="/usr/local/bin/$$script"; \
-      ln -vs $$scriptFile $$scriptPath || \
-      echo "Failed to link $$scriptPath"; \
+link-files:
+	@for path in $(shell find ./pi -type f); do \
+      ln -vs $$(pwd)/$${path#*./} $${path#*/pi}; \
     done
+
+install-prereqs:
+	@apt update && apt install -y net-tools python3 python3-pip
+	@pip3 install ansible
 
 install-systemd:
-	@for unit in $(shell ls systemd); do   \
-      unitFile="$(shell pwd)/systemd/$$unit"; \
-      systemdPath="/lib/systemd/system/$$unit"; \
-      ln -vs $$unitFile $$systemdPath || \
-      echo "Failed to link $$systemdPath"; \
-    done
 	systemctl daemon-reload
 
-install: install-scripts install-systemd
+install: link-files install-systemd
