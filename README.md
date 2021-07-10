@@ -19,3 +19,11 @@ Raspbian OS Scripts &amp; systemd Things
 # Misc
 
 I use this with [`pssh`](https://github.com/lilydjwg/pssh) to update my entire RPi cluster. Ansible scripts to come soon. Maybe.
+
+# K8s
+
+Various K8s resources coming later.
+
+## Misc Notes
+
+- Using [this calico configuration on my cluster](https://gist.github.com/joshrosso/7eda940337a89c97b690bc855139ca61)
