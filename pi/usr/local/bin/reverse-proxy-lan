@@ -8,10 +8,27 @@ if [ -z "$hostnames" ]; then
   exit 1
 fi
 
+link="$2"
+if [ -z "$link" ]; then
+  echo "No link/device provided, assuming eth0"
+  link="eth0"
+fi
+
+link_broadcast=$(ifconfig | grep "$link" -A1 | grep broadcast | awk '{print $NF}')
+link_block="$(echo $link_broadcast | sed -e 's/\.[0-9]*$/.0/g')/24"
+
+echo "Looking for hostnames on block $link_block"
+workingdir="/tmp/$(date | sha256sum | awk '{print $1}')"
+mkdir -p $workingdir
+nmap_file="$workingdir/nmap.txt"
+nmap -sn -oG - "$link_block" > $nmap_file
+echo "---- NMap Results"
+cat $nmap_file
+
 ips=()
 for hostname in $(echo ${hostnames//:/ }); do
   # can't memo-ize arp output, entire string turns into a single line
-  ip="$(arp -a | grep "$hostname" | awk '{print $2}' | sed 's/^(\(.*\))$/\1/')"
+  ip="$(cat $nmap_file | grep "$hostname" | awk '{print $2}' | sed 's/^(\(.*\))$/\1/')"
 
   if [ -z "$ip" ]; then
     echo "WARNING: could not find IP for $hostname, skipping..."
@@ -25,6 +42,7 @@ done
 
 echo "Reverse-Searched IPs:"
 echo "${ips[*]}"
+rm -rf $workingdir
 
 # ansible here for writing to /etc/nginx/nginx.conf based on ./etc/nginx/nginx.conf.j2
 
