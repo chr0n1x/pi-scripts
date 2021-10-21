@@ -15,4 +15,10 @@ install-prereqs:
 install-systemd:
 	systemctl daemon-reload
 
+DEVICE ?= wlan0
+SCAN_BLK ?= $(shell ifconfig | grep ${DEVICE} -A1 | tail -n1 \
+            | awk '{print ($$NF)}' | sed 's/\.[0-9]*$$/.*/')
+hosts:
+	nmap -sn ${SCAN_BLK} | grep -v Host | sort
+
 install: link-files install-systemd
