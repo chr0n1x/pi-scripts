@@ -1,0 +1,32 @@
+
+user  nginx;
+worker_processes  auto;
+
+error_log /dev/stdout notice;
+pid       /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+stream {
+    log_format  main  '$remote_addr - [$time_local] $status';
+    access_log /dev/stdout main;
+
+    upstream stream_backend {
+        least_conn;
+
+      {% for control_plane_host_ip in control_plane_host_ips %}
+        server {{ control_plane_host_ip }}:6443;
+      {% endfor %}
+    }
+
+    server {
+        listen 443;
+        listen 6443;
+        proxy_pass            stream_backend;
+        proxy_timeout         3s;
+        proxy_connect_timeout 1s;
+    }
+}
